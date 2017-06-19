@@ -167,3 +167,79 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
       geom_point(aes(color = drv))
 
 #Statistical Transformations
+#1. Default geom is pointrange.
+
+ggplot(data = diamonds) +
+      geom_pointrange(mapping = aes(x = cut, y = depth),
+                      stat = "summary", fun.ymin = min,
+                      fun.ymax = max, fun.y = median)
+
+#2. geom_bar takes the count of observations at each level of x variable.
+#Geom_col represents values in the data instead.
+
+#3. Where possible, the stat and geom function pairs share the same
+#name.
+
+#4. stat_smooth calculates a predicted value for y given x, along with
+# t based standard error and a resulting confidence interval. It is
+# controlled by data and the method argument.
+
+#5. Without group aesthetic, each prop == 1. geom_bar separates into
+# groups first, then calculates prop within each group.
+
+ggplot(data = diamonds) +
+      geom_bar(mapping = aes(x = cut, y = ..prop..))
+
+ggplot(data = diamonds) +
+      geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
+
+#Better
+ggplot(data = diamonds) +
+      geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
+ggplot(data = diamonds) +
+      geom_bar(mapping = aes(x = cut, fill = color, 
+                             y = ..prop.., group = color))
+
+#Position adjustments
+
+#1. Overplotting. More than one observation at each point. Can
+#improve with alpha or jitter.
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+      geom_point(color = "blue", alpha = 0.3)
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+      geom_jitter()
+
+#2. width and height control the jitter amount.
+
+#3. geom_count uses point size to deal with overplotting.
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+      geom_count()
+
+#4. Default position is dodge
+ggplot(data = mpg, mapping = aes(x = drv, y = hwy, 
+                                 fill = factor(year))) +
+      geom_boxplot()
+
+#Coordinate systems
+
+#1.
+ggplot(data = mpg, mapping = aes(x = 1, fill = class)) +
+      geom_bar() +
+      coord_polar(theta = "y")
+             
+
+#2. labs controls all labels for the plot, including axis, legend, 
+# and title
+
+#3. Coord_map tries to project whatever portion of the earth onto a 2d
+# plane, which does not preserve straight lines and requires considerable
+# computation. Coord_quickmap is a quick approximation that does preserve
+# straight lines.
+
+#4. Hwy is always higher than cty for cars in the data set. Coord_fixed
+# sets the x axis and y axis to equal values and scales, and abline
+# draws an x = y line on the graph.
