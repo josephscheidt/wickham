@@ -123,3 +123,47 @@ ggplot(data = mpg) +
 # tall, so the data will be easier to see that way.
 
 # Geometric Objects
+#1. geom_line() (or step or path), geom_boxplot(), geom_histogram(), 
+# geom_area()
+
+#2. Points colored by drive train type, with a loess smoothing line, no
+# standard error bars. (In truth it is 3 smoothing lines, by drive train type)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
+      geom_point() +
+      geom_smooth(se = FALSE)
+
+#3. It removes the legend of aesthetics from the plot. You removed it so it
+# wouldn't be repeated three times in the same row of plots.
+
+#4. removes the standard error bar.
+
+#5. No, they will look the same. The first has global attributes set, the
+#second sets the same attributes, but locally for each geom
+
+#6.
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+      geom_point() +
+      geom_smooth(color = "blue", se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+      geom_point() +
+      geom_smooth(aes(group = drv), color = "blue", se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy, color = drv)) +
+      geom_point() +
+      geom_smooth(se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+      geom_point(aes(color = drv)) +
+      geom_smooth(color = "black", se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+      geom_point(aes(color = drv)) +
+      geom_smooth(aes(linetype = drv), color = "black", se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+      geom_point(aes(color = drv))
+
+#Statistical Transformations
